@@ -3,7 +3,8 @@ from inline_markdown import (
     split_nodes_delimiter,
     extract_markdown_images,
     extract_markdown_links,
-    split_nodes_image
+    split_nodes_image,
+    split_nodes_link
 )
 
 from textnode import (
@@ -147,6 +148,24 @@ class TestInlineMarkdown(unittest.TestCase):
                 TextNode(
                     "second image", text_type_image, "https://i.imgur.com/3elNhQu.png"
                 ),
+            ],
+            new_nodes,
+        )
+        
+    def test_split_links(self):
+        node = TextNode(
+            "This is text with a [link](https://boot.dev) and [another link](https://blog.boot.dev) with text that follows",
+            text_type_text,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", text_type_text),
+                TextNode("link", text_type_link, "https://boot.dev"),
+                TextNode(" and ", text_type_text),
+                TextNode("another link", text_type_link,
+                         "https://blog.boot.dev"),
+                TextNode(" with text that follows", text_type_text),
             ],
             new_nodes,
         )
