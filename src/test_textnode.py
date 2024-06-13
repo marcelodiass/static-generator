@@ -1,13 +1,5 @@
 import unittest
 
-from inline_markdown import (
-    split_nodes_delimiter,
-    text_type_bold,
-    text_type_code,
-    text_type_image,
-    text_type_italic,
-    text_type_link,
-    text_type_text)
 from textnode import TextNode
 
 
@@ -32,18 +24,6 @@ class TestTextNode(unittest.TestCase):
     def test_image_to_html(self):
         node = TextNode("Image Alt Text", "image", "google.com")
         self.assertEqual(node.to_html(), '<img src="google.com" alt="Image Alt Text"></img>')
-        
-    def test_delim_bold(self):
-        node = TextNode("This is text with a **bolded** word", text_type_text)
-        new_nodes = split_nodes_delimiter([node], "**", text_type_bold)
-        self.assertListEqual(
-            [
-                TextNode("This is text with a ", text_type_text),
-                TextNode("bolded", text_type_bold),
-                TextNode(" word", text_type_text),
-            ],
-            new_nodes,
-        )
     
     
 if __name__ == "__main__":
